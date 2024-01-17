@@ -1,6 +1,6 @@
 # Link-Manager
 
-| Column 1 | Column 2 | Column 3 |
+| HTTP method | API endpoint | Description |
 |----------|----------|----------|
-| Cell 1   | Cell 2   | Cell 3   |
+| GET  | /customers | Get a list of customers. |
 | Cell 4   | Cell 5   | Cell 6   |
