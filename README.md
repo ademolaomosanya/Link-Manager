@@ -1,6 +1,6 @@
 # Link-Manager
 
-| HTTP method |   API endpoint   | Description              | Body   
+| HTTP method |   API endpoint   | Description              | Body   |
 |-------------|------------------|--------------------------|
 | GET         | /links           | Get a list of all links. |
 | GET         | /links/<link_id> | Get a single link.       |
