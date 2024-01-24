@@ -1,7 +1,7 @@
 import { connection } from "../config";
 
 const tableSchema = `
-  DROP TABLE IF EXISTS users;
+  DROP TABLE IF EXISTS users CASCADE;
 
   CREATE TABLE users (
     user_id INT NOT NULL AUTO_INCREMENT,
