@@ -1,41 +1,34 @@
-import express, { Router } from "express";
-import mysql2 from "mysql2";
-import "dotenv/config";
+import * as http from "http";
+import App from "./app";
+import { env, envMap } from "./config/env.config";
 
-const app = express();
+const usedPorts: number[] = [];
+const port = envMap[env].port || 0;
 
-// connecting Database
-const connection = mysql2.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
-
-connection.connect((err) => {
-  if (err) {
-    console.error("Error connecting to MySQL database:", err);
-    return;
+App.set("port", port);
+const server = http.createServer(App);
+server.listen(port, () => {
+  const addr = server.address();
+  if (addr && typeof addr !== "string" && addr?.port) {
+    usedPorts.push(addr?.port);
   }
-  console.log("Connected to MySQL database!");
 });
 
-app.get("/", (req, res) => {
-  res.send("Hi");
+server.on("listening", function (): void {
+  const addr = server.address();
+  const bind =
+    typeof addr === "string"
+      ? `pipe ${addr}`
+      : `port:: ${addr?.port} family:: ${addr?.family} address:: ${addr?.address}`;
+  console.info(`Listening on ${bind}`, addr);
 });
 
-app.post("/users", (req, res) => {
-  const jsonData = req.body;
-  connection.query("INSERT INTO users SET ?", jsonData, (err, results) => {
-    if (err) {
-      console.error("Error inserting data into MySQL database:", err);
-      res.status(500).json({ error: "Failed to insert data into database" });
-      return;
-    }
-    res.status(200).json({ message: "Data inserted into MySQL database" });
-  });
+process.on("SIGTERM", () => {
+  if (env === "test") {
+    server.close(() => {
+      // console.log("...........---------👋------...........");
+    });
+  }
 });
 
-app.listen(5000, () => {
-  console.log("Server listening in http://localhost:5000");
-});
+module.exports = App;
