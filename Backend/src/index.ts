@@ -3,7 +3,7 @@ import App from "./app";
 import { env, envMap } from "./config/env.config";
 
 const usedPorts: number[] = [];
-const port = envMap[env].port || 0;
+const port = envMap[env].PORT || 0;
 
 App.set("port", port);
 const server = http.createServer(App);

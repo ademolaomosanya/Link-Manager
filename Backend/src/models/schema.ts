@@ -1,7 +1,8 @@
 import { connection } from "../config";
 
 const tableSchema = `
-  DROP TABLE IF EXISTS users;
+  DROP TABLE IF EXISTS users CASCADE;
+  DROP TABLE IF EXISTS urls CASCADE;
 
   CREATE TABLE users (
     user_id INT NOT NULL AUTO_INCREMENT,
@@ -10,6 +11,13 @@ const tableSchema = `
     full_name TEXT,
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (user_id)
+  );
+
+  CREATE TABLE urls (
+    url_id INT PRIMARY KEY AUTO_INCREMENT,
+    url VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT
+  
   );
 `;
 
@@ -21,3 +29,6 @@ connection.query(tableSchema, (err, results) => {
     console.log("Schema executed successfully");
   }
 });
+
+
+

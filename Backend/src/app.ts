@@ -5,15 +5,16 @@ import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 
 import { ENVIRONMENT } from "./config/env.config";
-import { UserController } from "./controller";
-import { UserRouter } from "./routes";
+import { UserController, UrlController } from "./controller";
+import { UserRouter, UrlRouter } from "./routes";
 import { specs } from "./config";
 
 class App {
   public express: express.Application;
   public userController: UserController;
-
+  public urlController: UrlController;
   public userRouter: Router;
+  public urlRouter: Router;
 
   constructor() {
     // initialize express
@@ -21,9 +22,11 @@ class App {
 
     // controllers
     this.userController = new UserController();
+    this.urlController = new UrlController();
 
     // routers
     this.userRouter = new UserRouter(this.userController).router;
+    this.urlRouter = new UrlRouter(this.urlController).router;
 
     this.middleware();
     this.defaultRoutes();
@@ -49,6 +52,7 @@ class App {
     this.express.use(cors(corsOptions))
     this.express.use("/api-docs", swaggerUi.serve as any, swaggerUi.setup(specs) as any);
     this.express.use("/api/users", this.userRouter);
+    this.express.use("/api/urls", this.urlRouter);
   }
 
   private defaultRoutes(): void {
