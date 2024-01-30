@@ -105,8 +105,6 @@ updateUrl = (req: Request, res: Response) => {
   const updateData: UrlUpdate = req.body;
   const urlId = req.params.urlId;
 
-  console.log(`Received request to update URL with ID ${urlId} to ${updateData.newUrl}`);
-
   this.urlModel.getSingleUrl({urlId: parseInt(urlId)}, (err, urls) => {
     if (err) {
       console.error("Error checking if URL exists in MySQL database:", err);
@@ -195,8 +193,6 @@ updateDescription = (req: Request, res: Response) => {
 
 deleteUrl = (req: Request, res: Response) => {
   const urlId = req.params.urlId;
-
-  console.log(`Received request to delete URL with ID ${urlId}`);
 
   this.urlModel.getSingleUrl({urlId: parseInt(urlId)}, (err, urls) => {
     if (err) {

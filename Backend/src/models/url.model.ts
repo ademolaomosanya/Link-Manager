@@ -46,13 +46,11 @@ export class UrlModel {
 
     updateUrl(updateData: UrlUpdate, callback: (err: any, results: any) => any) {
         const { urlId, newUrl } = updateData;
-        console.log(`Updating URL with ID ${urlId} to ${newUrl}`);
         connection.query("UPDATE urls SET url = ? WHERE url_id = ?", [newUrl, urlId], callback);
     }
 
     updateDescription(updateData: UpdateDescriptionData, callback: (err: any, results: any) => any) {
         const { urlId, newDescription } = updateData;
-        console.log(`Updating URL with ID ${urlId} to ${newDescription}`);
         connection.query("UPDATE urls SET description = ? WHERE url_id = ?", [newDescription, urlId], callback);
     }
 
