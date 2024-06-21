@@ -105,7 +105,7 @@ updateUrl = (req: Request, res: Response) => {
   const updateData: UrlUpdate = req.body;
   const urlId = req.params.urlId;
 
-  this.urlModel.getSingleUrl({urlId: parseInt(urlId)}, (err, urls) => {
+  this.urlModel.getSingleUrl({ urlId: parseInt(urlId) }, (err, urls) => {
     if (err) {
       console.error("Error checking if URL exists in MySQL database:", err);
       res.status(500).json({
@@ -125,26 +125,36 @@ updateUrl = (req: Request, res: Response) => {
       return;
     }
 
-    this.urlModel.updateUrl({ urlId: parseInt(urlId), newUrl: updateData.newUrl }, (updateErr, result) => {
-      if (updateErr) {
-        console.error("Error updating URL in MySQL database:", updateErr);
-        res.status(500).json({
-          success: false,
-          message: "Internal server error",
-          data: null,
-        });
-        return;
-      }
+    this.urlModel.updateUrl(
+      {
+        urlId: parseInt(urlId),
+        title: updateData.title,
+        description: updateData.description,
+        newUrl: updateData.newUrl
+      },
+      (updateErr, result) => {
+        if (updateErr) {
+          console.error("Error updating URL in MySQL database:", updateErr);
+          res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            data: null,
+          });
+          return;
+        }
 
-      res.status(200).json({
-        success: true,
-        message: "URL updated successfully",
-        data: updateData,
-      });
-    });
+        res.status(200).json({
+          success: true,
+          message: "URL updated successfully",
+          data: updateData,
+        });
+      }
+    );
   });
 };
- 
+
+
+
 
 updateDescription = (req: Request, res: Response) => {
   const updateData: UpdateDescriptionData = req.body;

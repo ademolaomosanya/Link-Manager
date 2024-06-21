@@ -28,9 +28,12 @@ export class UrlRouter {
      *           schema:
      *             type: object
      *             required:
+     *               - tittle
      *               - url
      *               - description
      *             properties:
+     *               tittle:
+     *                 type:string
      *               url:
      *                 type: string
      *               description:

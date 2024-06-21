@@ -1,6 +1,7 @@
 import { connection } from "../config";
 
 export interface CreateUrl {
+    tittle: string;
     url: string;
     description: string;
 }
@@ -17,7 +18,10 @@ export interface getSingleUrl{
 export interface UrlUpdate {
     urlId: number;
     newUrl: string;
+    title: string;
+    description: string;
 }
+
 
 export interface UpdateDescriptionData {
     urlId: number;
@@ -45,9 +49,14 @@ export class UrlModel {
     }
 
     updateUrl(updateData: UrlUpdate, callback: (err: any, results: any) => any) {
-        const { urlId, newUrl } = updateData;
-        connection.query("UPDATE urls SET url = ? WHERE url_id = ?", [newUrl, urlId], callback);
-    }
+        const { urlId, title, description, newUrl } = updateData;
+        connection.query(
+          "UPDATE urls SET title = ?, description = ?, url = ? WHERE url_id = ?",
+          [title, description, newUrl, urlId],
+          callback
+        );
+      }
+         
 
     updateDescription(updateData: UpdateDescriptionData, callback: (err: any, results: any) => any) {
         const { urlId, newDescription } = updateData;

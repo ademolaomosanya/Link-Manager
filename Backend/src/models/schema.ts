@@ -12,13 +12,12 @@ const tableSchema = `
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (user_id)
   );
-
   CREATE TABLE urls (
     url_id INT PRIMARY KEY AUTO_INCREMENT,
     url VARCHAR(255) NOT NULL UNIQUE,
+    title VARCHAR(255) NOT NULL,
     description TEXT
-  
-  );
+);
 `;
 
 connection.query(tableSchema, (err, results) => {
